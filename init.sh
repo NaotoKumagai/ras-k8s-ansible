@@ -9,7 +9,7 @@ sudo -E apt autoremove -y
 
 # setup netplan: https://ubuntu.com/server/docs/network-configuration
 sudo -E mkdir -p /etc/netplan
-sudo -E p ./configs/99_config.yml /etc/netplan/
+sudo -E cp ./configs/99_config.yml /etc/netplan/
 
 sudo -E systemctl enable --now systemd-networkd
 # sudo -E netplan try
