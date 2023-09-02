@@ -1,12 +1,12 @@
 ---
-- hosts: all
+- hosts: localhost
   become: true
   tasks:
     # https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/
     - name: cp k8s-modules-load conf
       copy:
         src: ./configs/k8s-modules-load.conf
-        dest: /etc/modules-load.d/
+        dest: /etc/modules-load.d/k8s-modules-load.conf
     - name: apply modules-load
       cmd:
         - modprobe overlay
@@ -14,7 +14,7 @@
     - name: cp k8s-sysctl conf
       copy:
         src: ./configs/k8s-sysctl.conf
-        dest: /etc/sysctl.d/
+        dest: /etc/sysctl.d/k8s-sysctl.conf
     - name: apply sysctl
       cmd:
         - sudo sysctl --system
