@@ -2,15 +2,18 @@
 
 source ./conf.txt
 
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y ansible
+sudo -E apt update
+sudo -E apt upgrade -y
+sudo -E apt install -y ansible netplan.io
+sudo -E apt autoremove -y
 
 # setup netplan: https://ubuntu.com/server/docs/network-configuration
-cp ./configs/99_config.yml /etc/netplan/
+sudo -E mkdir -p /etc/netplan
+sudo -E p ./configs/99_config.yml /etc/netplan/
 
-# sudo netplan try
-sudo netplan apply
+sudo -E systemctl enable --now systemd-networkd
+# sudo -E netplan try
+sudo -E netplan apply
 
 
 # ansible-playbook ./playbook.yml
