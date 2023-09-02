@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    # https://kubernetes.io/ja/docs/setup/production-environment/container-runtimes/
+    - name: cp k8s-modules-load conf
+      copy:
+        src: ./configs/k8s-modules-load.conf
+        dest: /etc/modules-load.d/
+    - name: apply modules-load
+      cmd:
+        - modprobe overlay
+        - modprobe br_netfilter
+    - name: cp k8s-sysctl conf
+      copy:
+        src: ./configs/k8s-sysctl.conf
+        dest: /etc/sysctl.d/
+    - name: apply sysctl
+      cmd:
+        - sudo sysctl --system
+    - name: confirmation
+      cmd:
+        - lsmod | grep br_netfilter
+        - lsmod | grep overlay
+        - sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
