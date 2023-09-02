@@ -14,8 +14,8 @@ sudo -E chmod +x /usr/bin/yq
 sudo -E mkdir -p /etc/netplan
 sudo -E cp -f ./configs/99_config.yaml /etc/netplan/
 
-sudo yq -i '.network.wifis.wlan0.access-points="$ACCESS_POINTS"' /etc/netplan/99_config.yaml
-sudo yq -i '.network.wifis.wlan0.access-points.password="$ACCESS_POINTS_PASS"' /etc/netplan/99_config.yaml
+sudo yq -i ".network.wifis.wlan0.access-points=\"${ACCESS_POINTS}\"" /etc/netplan/99_config.yaml
+sudo yq -i ".network.wifis.wlan0.access-points.password=\"${ACCESS_POINTS_PASS}\"" /etc/netplan/99_config.yaml
 
 sudo -E systemctl enable --now systemd-networkd
 # sudo -E netplan try
