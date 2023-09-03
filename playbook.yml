@@ -32,7 +32,8 @@
         create: yes
     - name: install containerd
       apt: 
-        name: containerd
+        update_cache: yes
+        name: containerd.io
     - name: cp containerd config.toml
       copy:
         src: ./configs/config.toml

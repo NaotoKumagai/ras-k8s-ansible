@@ -15,7 +15,8 @@ sudo -E mkdir -p /etc/netplan
 sudo -E cp -f ./configs/99_config.yaml /etc/netplan/
 
 sudo yq -i ".network.wifis.wlan0.access-points.${ACCESS_POINTS}.password=\"${ACCESS_POINTS_PASS}\"" /etc/netplan/99_config.yaml
-sudo -E netplan apply
+
+sudo -E cp -f ./configs/cmdline.txt /boot/firmware/cmdline.txt
 
 
 # ansible-playbook ./playbook.yml
