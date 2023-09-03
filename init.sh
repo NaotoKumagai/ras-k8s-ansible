@@ -14,9 +14,12 @@ sudo -E chmod +x /usr/bin/yq
 sudo -E mkdir -p /etc/netplan
 sudo -E cp -f ./configs/99_config.yaml /etc/netplan/
 
+# Fixed local IP
 sudo yq -i ".network.wifis.wlan0.access-points.${ACCESS_POINTS}.password=\"${ACCESS_POINTS_PASS}\"" /etc/netplan/99_config.yaml
 
-sudo -E cp -f ./configs/cmdline.txt /boot/firmware/cmdline.txt
+# enable cgroup memory (need kubeadm)
+sudo -E cp -f ./configs/cmdline.txt /boot/cmdline.txt
 
+sudo -E shutdown -r now
 
 # ansible-playbook ./playbook.yml
