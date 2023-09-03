@@ -39,3 +39,18 @@
         dest: /etc/containerd/config.toml
     - name: restart containerd
       shell: systemctl restart containerd
+    - name: Install k8s public signing key
+      shell: curl -fsSL https://dl.k8s.io/apt/doc/apt-key.gpg | gpg --dearmor --yes -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
+    - name: Add the k8s apt repository
+      lineinfile:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        line: deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+        create: yes
+    - name: install k8s
+      apt:
+        update_cache: yes
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+    
