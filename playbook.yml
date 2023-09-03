@@ -32,4 +32,4 @@
         create: yes
     - name: install containerd
       apt: 
-        name: containerd.io
+        name: containerd
