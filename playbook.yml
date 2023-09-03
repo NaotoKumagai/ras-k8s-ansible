@@ -33,3 +33,7 @@
     - name: install containerd
       apt: 
         name: containerd
+    - name: cp containerd config.toml
+      copy:
+        src: ./configs/config.toml
+        dest: /etc/containerd/config.toml
