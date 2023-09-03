@@ -8,20 +8,28 @@
         src: ./configs/k8s-modules-load.conf
         dest: /etc/modules-load.d/k8s-modules-load.conf
     - name: apply modules-load
-      command:
-        cmd:
-          - modprobe overlay
-          - modprobe br_netfilter
+      shell: | 
+        modprobe overlay
+        modprobe br_netfilter
     - name: cp k8s-sysctl conf
       copy:
         src: ./configs/k8s-sysctl.conf
         dest: /etc/sysctl.d/k8s-sysctl.conf
     - name: apply sysctl
-      command:
-        cmd:
-          - sudo sysctl --system
+      shell: | 
+        sudo sysctl --system
     - name: confirmation
       shell: | 
-          lsmod | grep br_netfilter
-          lsmod | grep overlay
-          sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+        lsmod | grep br_netfilter
+        lsmod | grep overlay
+        sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+    - name: Install Docker public signing key
+      shell: curl -sSL https://download.docker.com/linux/debian/gpg | gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
+    - name: Add the Docker apt repository
+      lineinfile:
+        path: /etc/apt/sources.list.d/docker.list
+        line: deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian jammy stable
+        create: yes
+    - name: install containerd
+      apt: 
+        name: containerd.io
