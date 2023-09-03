@@ -37,3 +37,5 @@
       copy:
         src: ./configs/config.toml
         dest: /etc/containerd/config.toml
+    - name: restart containerd
+      shell: systemctl restart containerd
